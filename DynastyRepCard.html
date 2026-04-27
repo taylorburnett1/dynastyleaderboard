@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynasty Region — Rep Card</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black: #0C0C0B;
+  --charcoal: #141412;
+  --dark: #1C1C1A;
+  --card: #181816;
+  --rule: #2A2A28;
+  --dim: #55554F;
+  --muted: #888880;
+  --light: #C0C0B8;
+  --white: #F2F2EE;
+  --gold: #C9A84C;
+  --gold-dim: rgba(201,168,76,0.1);
+  --green: #4CAF7A;
+  --orange: #E07840;
+  --red: #D05050;
+  --blue: #5090D0;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; min-height: 100vh; }
+
+/* NAV */
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 48px; border-bottom: 0.5px solid var(--rule);
+  background: rgba(12,12,11,0.95); position: sticky; top: 0; z-index: 100;
+  backdrop-filter: blur(12px);
+}
+.nav-logo { font-family: 'UnifrakturCook', cursive; font-size: 24px; color: var(--white); text-decoration: none; }
+.nav-title { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); }
+.nav-date { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: var(--gold); }
+
+/* HERO */
+.hero {
+  padding: 72px 48px 56px; text-align: center;
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 65%);
+  border-bottom: 0.5px solid var(--rule); position: relative;
+}
+.hero-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; justify-content: center; gap: 14px; }
+.hero-eyebrow::before, .hero-eyebrow::after { content: ''; display: block; width: 40px; height: 0.5px; background: var(--gold); opacity: 0.4; }
+.hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 6vw, 72px); font-weight: 300; color: var(--white); letter-spacing: 0.04em; }
+.hero h1 strong { font-weight: 600; color: var(--gold); }
+.hero-sub { font-size: 13px; color: var(--dim); margin-top: 12px; letter-spacing: 0.08em; }
+
+/* TOTALS BAR */
+.totals-bar {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  border-bottom: 0.5px solid var(--rule);
+}
+.total-cell {
+  padding: 28px 24px; text-align: center;
+  border-right: 0.5px solid var(--rule);
+}
+.total-cell:last-child { border-right: none; }
+.total-val { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 300; color: var(--white); line-height: 1; }
+.total-val.gold { color: var(--gold); }
+.total-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); margin-top: 8px; }
+
+/* OFFICE TABS */
+.tabs { display: flex; border-bottom: 0.5px solid var(--rule); padding: 0 48px; gap: 0; overflow-x: auto; }
+.tab {
+  padding: 16px 24px; font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--dim); cursor: pointer;
+  border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
+  background: none; border-top: none; border-left: none; border-right: none;
+}
+.tab:hover { color: var(--white); }
+.tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* TABLE SECTION */
+.section { padding: 0 48px 80px; }
+.section-header { display: flex; align-items: center; justify-content: space-between; padding: 40px 0 24px; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; color: var(--white); }
+.section-count { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dim); }
+
+/* TOP 3 PODIUM */
+.podium { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; margin-bottom: 2px; }
+.podium-card {
+  padding: 32px 28px; background: var(--card); position: relative;
+  overflow: hidden; transition: background 0.2s;
+}
+.podium-card.rank-1 { background: linear-gradient(135deg, #1E1A0E 0%, var(--card) 100%); }
+.podium-card.rank-1::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); }
+.podium-card.rank-2::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.5px; background: #A0A0A0; }
+.podium-card.rank-3::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.5px; background: #A0704A; }
+.podium-rank { font-family: 'Cormorant Garamond', serif; font-size: 80px; font-weight: 300; position: absolute; top: 8px; right: 20px; line-height: 1; opacity: 0.06; color: var(--white); pointer-events: none; }
+.rank-1 .podium-rank { opacity: 0.1; color: var(--gold); }
+.podium-badge { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; font-size: 11px; font-weight: 800; margin-bottom: 14px; }
+.rank-1 .podium-badge { background: var(--gold); color: var(--black); }
+.rank-2 .podium-badge { background: #888; color: var(--black); }
+.rank-3 .podium-badge { background: #A0704A; color: var(--black); }
+.podium-name { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.podium-office { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); margin-bottom: 20px; }
+.podium-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.podium-stat-val { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; color: var(--white); line-height: 1; }
+.rank-1 .podium-stat-val { color: var(--gold); }
+.podium-stat-label { font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); margin-top: 4px; }
+
+/* TABLE */
+.rep-table { width: 100%; border-collapse: collapse; }
+.rep-table thead tr { border-bottom: 0.5px solid var(--rule); }
+.rep-table th { padding: 12px 16px; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); text-align: left; }
+.rep-table th.right { text-align: right; }
+.rep-table tbody tr {
+  border-bottom: 0.5px solid var(--rule);
+  transition: background 0.15s; cursor: default;
+}
+.rep-table tbody tr:hover { background: var(--dark); }
+.rep-table td { padding: 14px 16px; font-size: 13px; color: var(--light); }
+.rep-table td.right { text-align: right; font-variant-numeric: tabular-nums; }
+.rank-cell { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300; color: var(--dim); width: 40px; }
+.name-cell { font-weight: 600; color: var(--white); font-size: 14px; }
+.name-cell .rookie { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); background: rgba(224,120,64,0.12); padding: 2px 6px; border-radius: 2px; margin-left: 8px; vertical-align: middle; }
+.office-cell { font-size: 11px; color: var(--dim); }
+.stat-big { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--white); }
+.stat-green { color: var(--green); }
+.stat-gold { color: var(--gold); }
+.appt-cell { font-weight: 700; color: var(--green); font-size: 15px; }
+.hours-cell { color: var(--muted); font-size: 12px; }
+.bar-wrap { display: flex; align-items: center; gap: 8px; }
+.bar { height: 3px; background: var(--rule); border-radius: 2px; flex: 1; min-width: 60px; }
+.bar-fill { height: 100%; border-radius: 2px; background: var(--gold); transition: width 0.6s ease; }
+.zero-row td { opacity: 0.3; }
+
+/* OFFICE SUMMARY CARDS */
+.office-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 48px; }
+.office-card { background: var(--card); padding: 28px 24px; border-top: 1.5px solid var(--gold); }
+.office-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--white); margin-bottom: 4px; }
+.office-sub { font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dim); margin-bottom: 20px; }
+.office-stat { margin-bottom: 12px; }
+.office-stat-val { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--gold); line-height: 1; }
+.office-stat-label { font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); margin-top: 4px; }
+.office-top { font-size: 11px; color: var(--muted); margin-top: 16px; padding-top: 16px; border-top: 0.5px solid var(--rule); }
+.office-top strong { color: var(--white); }
+
+/* FOOTER */
+footer { padding: 40px 48px; border-top: 0.5px solid var(--rule); display: flex; align-items: center; justify-content: space-between; }
+.footer-logo { font-family: 'UnifrakturCook', cursive; font-size: 22px; color: var(--dim); }
+.footer-copy { font-size: 10px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav, .hero, .section { padding-left: 20px; padding-right: 20px; }
+  .totals-bar { grid-template-columns: repeat(3, 1fr); }
+  .podium { grid-template-columns: 1fr; }
+  .office-grid { grid-template-columns: repeat(2, 1fr); }
+  .tabs { padding: 0 20px; }
+  footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 20px; }
+  .rep-table th:nth-child(n+5), .rep-table td:nth-child(n+5) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-title">Dynasty Region · Rep Card</span>
+  <span class="nav-date">Apr 20 – 26, 2026</span>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Dynasty KIN · Field Performance</div>
+  <h1>Rep Card <strong>Leaderboard</strong></h1>
+  <p class="hero-sub">Dynasty Region · All Offices · Week to Date · April 20 – 26, 2026</p>
+</div>
+
+<!-- TOTALS BAR -->
+<div class="totals-bar">
+  <div class="total-cell">
+    <div class="total-val gold">5,601</div>
+    <div class="total-label">Doors Knocked</div>
+  </div>
+  <div class="total-cell">
+    <div class="total-val">2,223</div>
+    <div class="total-label">Doors Opened</div>
+  </div>
+  <div class="total-cell">
+    <div class="total-val">771</div>
+    <div class="total-label">Qualified Pitches</div>
+  </div>
+  <div class="total-cell">
+    <div class="total-val">85</div>
+    <div class="total-label">Appointments Set</div>
+  </div>
+  <div class="total-cell">
+    <div class="total-val">25</div>
+    <div class="total-label">Appointments Sat</div>
+  </div>
+
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('all')">All Reps</button>
+  <button class="tab" onclick="showTab('panama')">Panama City</button>
+  <button class="tab" onclick="showTab('winterhaven')">Winter Haven</button>
+  <button class="tab" onclick="showTab('orlando-free')">Elevate Orlando</button>
+  <button class="tab" onclick="showTab('orlando-allen')">Allen Orlando</button>
+</div>
+
+<!-- OFFICE SUMMARY CARDS -->
+<div class="section" id="tab-all">
+  <div class="section-header">
+    <div class="section-title">Office Breakdown</div>
+  </div>
+  <div class="office-grid">
+    <div class="office-card">
+      <div class="office-name">Panama City</div>
+      <div class="office-sub">Champagne · 2026</div>
+      <div class="office-stat">
+        <div class="office-stat-val">1,213</div>
+        <div class="office-stat-label">Doors Knocked</div>
+      </div>
+      <div class="office-stat">
+        <div class="office-stat-val" style="font-size:24px;color:var(--white)">7</div>
+        <div class="office-stat-label">Appointments Set</div>
+      </div>
+      <div class="office-top">Top Rep: <strong>Tyler Smith</strong> · 448 doors</div>
+    </div>
+    <div class="office-card">
+      <div class="office-name">Winter Haven</div>
+      <div class="office-sub">Douglass · 2026</div>
+      <div class="office-stat">
+        <div class="office-stat-val">1,927</div>
+        <div class="office-stat-label">Doors Knocked</div>
+      </div>
+      <div class="office-stat">
+        <div class="office-stat-val" style="font-size:24px;color:var(--white)">29</div>
+        <div class="office-stat-label">Appointments Set</div>
+      </div>
+      <div class="office-top">Top Rep: <strong>Nickolas Thornton</strong> · 386 doors</div>
+    </div>
+    <div class="office-card">
+      <div class="office-name">Elevate Orlando</div>
+      <div class="office-sub">Free · 2026</div>
+      <div class="office-stat">
+        <div class="office-stat-val">1,267</div>
+        <div class="office-stat-label">Doors Knocked</div>
+      </div>
+      <div class="office-stat">
+        <div class="office-stat-val" style="font-size:24px;color:var(--white)">37</div>
+        <div class="office-stat-label">Appointments Set</div>
+      </div>
+      <div class="office-top">Top Rep: <strong>Blake Shirah</strong> · 235 doors</div>
+    </div>
+    <div class="office-card">
+      <div class="office-name">Allen Orlando</div>
+      <div class="office-sub">Allen · 2026</div>
+      <div class="office-stat">
+        <div class="office-stat-val">520</div>
+        <div class="office-stat-label">Doors Knocked</div>
+      </div>
+      <div class="office-stat">
+        <div class="office-stat-val" style="font-size:24px;color:var(--white)">9</div>
+        <div class="office-stat-label">Appointments Set</div>
+      </div>
+      <div class="office-top">Top Rep: <strong>Joseph Heredia</strong> · 213 doors</div>
+    </div>
+  </div>
+
+  <!-- TOP 3 PODIUM -->
+  <div class="section-header">
+    <div class="section-title">Top Setters</div>
+    <div class="section-count">By Appointments Set</div>
+  </div>
+  <div class="podium">
+    <div class="podium-card rank-1">
+      <div class="podium-rank">1</div>
+      <div class="podium-badge">1</div>
+      <div class="podium-name">Blake Shirah</div>
+      <div class="podium-office">Elevate Orlando</div>
+      <div class="podium-stats">
+        <div><div class="podium-stat-val">10</div><div class="podium-stat-label">Appts Set</div></div>
+        <div><div class="podium-stat-val">235</div><div class="podium-stat-label">Doors</div></div>
+        <div><div class="podium-stat-val">4</div><div class="podium-stat-label">Appts Sat</div></div>
+        <div><div class="podium-stat-val">5.2h</div><div class="podium-stat-label">Avg Hours</div></div>
+      </div>
+    </div>
+    <div class="podium-card rank-2">
+      <div class="podium-rank">2</div>
+      <div class="podium-badge">2</div>
+      <div class="podium-name">Nathaniel Sutera</div>
+      <div class="podium-office">Winter Haven</div>
+      <div class="podium-stats">
+        <div><div class="podium-stat-val">7</div><div class="podium-stat-label">Appts Set</div></div>
+        <div><div class="podium-stat-val">374</div><div class="podium-stat-label">Doors</div></div>
+        <div><div class="podium-stat-val">2</div><div class="podium-stat-label">Appts Sat</div></div>
+        <div><div class="podium-stat-val">4.8h</div><div class="podium-stat-label">Avg Hours</div></div>
+      </div>
+    </div>
+    <div class="podium-card rank-3">
+      <div class="podium-rank">3</div>
+      <div class="podium-badge">3</div>
+      <div class="podium-name">Connor Free</div>
+      <div class="podium-office">Elevate Orlando</div>
+      <div class="podium-stats">
+        <div><div class="podium-stat-val">7</div><div class="podium-stat-label">Appts Set</div></div>
+        <div><div class="podium-stat-val">69</div><div class="podium-stat-label">Doors</div></div>
+        <div><div class="podium-stat-val">3</div><div class="podium-stat-label">Appts Sat</div></div>
+        <div><div class="podium-stat-val">2.2h</div><div class="podium-stat-label">Avg Hours</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULL TABLE -->
+  <div class="section-header" style="padding-top:40px;">
+    <div class="section-title">All Reps</div>
+    <div class="section-count">39 Active Reps</div>
+  </div>
+  <table class="rep-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Rep</th>
+        <th>Office</th>
+        <th class="right">Doors</th>
+        <th class="right">Opened</th>
+        <th class="right">Q. Pitch</th>
+        <th class="right">Appts Set</th>
+        <th class="right">Appts Sat</th>
+        <th class="right">Hours</th>
+        <th style="min-width:120px;">Volume</th>
+      </tr>
+    </thead>
+    <tbody id="all-tbody"></tbody>
+  </table>
+</div>
+
+<!-- OFFICE-SPECIFIC TABS (hidden by default) -->
+<div class="section" id="tab-panama" style="display:none">
+  <div class="section-header"><div class="section-title">Panama City — Champagne</div><div class="section-count">7 Reps</div></div>
+  <table class="rep-table"><thead><tr><th>#</th><th>Rep</th><th class="right">Doors</th><th class="right">Q. Pitch</th><th class="right">Appts Set</th><th class="right">Appts Sat</th><th class="right">Hours</th></tr></thead><tbody id="panama-tbody"></tbody></table>
+</div>
+<div class="section" id="tab-winterhaven" style="display:none">
+  <div class="section-header"><div class="section-title">Winter Haven — Douglass</div><div class="section-count">14 Reps</div></div>
+  <table class="rep-table"><thead><tr><th>#</th><th>Rep</th><th class="right">Doors</th><th class="right">Q. Pitch</th><th class="right">Appts Set</th><th class="right">Appts Sat</th><th class="right">Hours</th></tr></thead><tbody id="winterhaven-tbody"></tbody>
+</table>
+</div>
+<div class="section" id="tab-orlando-free" style="display:none">
+  <div class="section-header"><div class="section-title">Elevate Orlando — Free</div><div class="section-count">13 Reps</div></div>
+  <table class="rep-table"><thead><tr><th>#</th><th>Rep</th><th class="right">Doors</th><th class="right">Q. Pitch</th><th class="right">Appts Set</th><th class="right">Appts Sat</th><th class="right">Hours</th></tr></thead><tbody id="orlando-free-tbody"></tbody></table>
+</div>
+<div class="section" id="tab-orlando-allen" style="display:none">
+  <div class="section-header"><div class="section-title">Allen Orlando</div><div class="section-count">6 Reps</div></div>
+  <table class="rep-table"><thead><tr><th>#</th><th>Rep</th><th class="right">Doors</th><th class="right">Q. Pitch</th><th class="right">Appts Set</th><th class="right">Appts Sat</th><th class="right">Hours</th></tr></thead><tbody id="orlando-allen-tbody"></tbody></table>
+</div>
+
+<footer>
+  <div class="footer-copy">Dynasty Region · KIN · April 20 – 26, 2026</div>
+  <div class="footer-copy">Created by Taylor Burnett</div>
+</footer>
+
+<script>
+const reps = [
+  {rank:1,name:'Tyler Smith',rookie:true,office:'Panama City',doors:448,opened:139,pitch:94,appts:2,sat:0,hours:'3.71'},
+  {rank:2,name:'Nickolas Thornton',rookie:true,office:'Winter Haven',doors:386,opened:177,pitch:16,appts:5,sat:1,hours:'4.13'},
+  {rank:3,name:'Samuel Monica',rookie:false,office:'Winter Haven',doors:380,opened:124,pitch:47,appts:4,sat:4,hours:'4.63'},
+  {rank:4,name:'Nathaniel Sutera',rookie:false,office:'Winter Haven',doors:374,opened:122,pitch:11,appts:7,sat:2,hours:'4.80'},
+  {rank:5,name:'Isaac Henges',rookie:false,office:'Panama City',doors:342,opened:193,pitch:70,appts:1,sat:1,hours:'3.97'},
+  {rank:6,name:'Lorenzo Woolley',rookie:true,office:'Winter Haven',doors:325,opened:148,pitch:9,appts:2,sat:1,hours:'5.49'},
+  {rank:7,name:'Sebastian Bouchard',rookie:true,office:'Panama City',doors:304,opened:118,pitch:63,appts:2,sat:0,hours:'3.40'},
+  {rank:8,name:'Jakob Worley',rookie:true,office:'Elevate Orlando',doors:238,opened:65,pitch:30,appts:1,sat:1,hours:'3.81'},
+  {rank:9,name:'Blake Shirah',rookie:false,office:'Elevate Orlando',doors:235,opened:121,pitch:34,appts:10,sat:1,hours:'5.20'},
+  {rank:10,name:'Waylon Rogers',rookie:true,office:'Winter Haven',doors:221,opened:37,pitch:3,appts:0,sat:0,hours:'3.24'},
+  {rank:11,name:'Joseph Heredia',rookie:false,office:'Allen Orlando',doors:213,opened:107,pitch:54,appts:4,sat:2,hours:'3.68'},
+  {rank:12,name:'Ronald Mckaye Jr',rookie:true,office:'Panama City',doors:212,opened:137,pitch:47,appts:1,sat:0,hours:'3.53'},
+  {rank:13,name:'Adam Mansfield',rookie:false,office:'Winter Haven',doors:185,opened:78,pitch:29,appts:4,sat:0,hours:'3.92'},
+  {rank:14,name:'Brandon Charles',rookie:true,office:'Elevate Orlando',doors:177,opened:75,pitch:24,appts:1,sat:0,hours:'3.91'},
+  {rank:15,name:'Antonio Duperron',rookie:false,office:'Panama City',doors:155,opened:64,pitch:41,appts:2,sat:1,hours:'3.70'},
+  {rank:16,name:'Omar Aldea Valentin',rookie:false,office:'Allen Orlando',doors:150,opened:38,pitch:4,appts:0,sat:0,hours:'3.75'},
+  {rank:17,name:'Colby Free',rookie:false,office:'Elevate Orlando',doors:134,opened:35,pitch:9,appts:1,sat:1,hours:'3.53'},
+  {rank:18,name:'Edwin Mena',rookie:true,office:'Winter Haven',doors:126,opened:31,pitch:13,appts:0,sat:0,hours:'3.74'},
+  {rank:19,name:'Gabriel Yeargin',rookie:false,office:'Winter Haven',doors:118,opened:28,pitch:8,appts:5,sat:2,hours:'3.35'},
+  {rank:20,name:'Kyle Thiel',rookie:false,office:'Allen Orlando',doors:107,opened:38,pitch:9,appts:2,sat:1,hours:'4.02'},
+  {rank:21,name:'Elliott Jones',rookie:true,office:'Winter Haven',doors:88,opened:27,pitch:3,appts:1,sat:0,hours:'3.53'},
+  {rank:22,name:'Lily Tingley',rookie:false,office:'Elevate Orlando',doors:87,opened:32,pitch:7,appts:2,sat:0,hours:'1.96'},
+  {rank:23,name:'Victor Machado',rookie:false,office:'Elevate Orlando',doors:77,opened:28,pitch:11,appts:0,sat:0,hours:'2.37'},
+  {rank:23,name:'Scott Robinson',rookie:true,office:'Elevate Orlando',doors:77,opened:44,pitch:30,appts:2,sat:1,hours:'4.33'},
+  {rank:25,name:'William Dolan',rookie:true,office:'Elevate Orlando',doors:73,opened:21,pitch:12,appts:3,sat:0,hours:'3.98'},
+  {rank:26,name:'Connor Free',rookie:false,office:'Elevate Orlando',doors:69,opened:26,pitch:16,appts:7,sat:3,hours:'2.19'},
+  {rank:27,name:'Drew Donner',rookie:false,office:'Elevate Orlando',doors:66,opened:40,pitch:14,appts:6,sat:1,hours:'2.79'},
+  {rank:28,name:'Joseph Reed',rookie:false,office:'Elevate Orlando',doors:62,opened:37,pitch:21,appts:4,sat:0,hours:'1.84'},
+  {rank:29,name:'Kyle Narozny',rookie:false,office:'Allen Orlando',doors:50,opened:20,pitch:13,appts:2,sat:0,hours:'1.81'},
+  {rank:30,name:'Ethan Davis',rookie:false,office:'Panama City',doors:35,opened:21,pitch:5,appts:1,sat:0,hours:'3.78'},
+  {rank:31,name:'Dane Centliver',rookie:true,office:'Winter Haven',doors:18,opened:10,pitch:3,appts:0,sat:0,hours:'1.98'},
+  {rank:32,name:'Zac Bennett',rookie:false,office:'Panama City',doors:17,opened:10,pitch:2,appts:0,sat:1,hours:'0.72'},
+  {rank:32,name:'Kindley Dill',rookie:false,office:'Winter Haven',doors:17,opened:8,pitch:2,appts:1,sat:0,hours:'1.13'},
+  {rank:34,name:'Blake Allen',rookie:false,office:'Allen Orlando',doors:13,opened:13,pitch:12,appts:1,sat:1,hours:'0'},
+  {rank:35,name:'Wesley Posey',rookie:false,office:'Allen Orlando',doors:4,opened:2,pitch:1,appts:1,sat:0,hours:'0'},
+  {rank:36,name:'Caleb Champagne',rookie:false,office:'Panama City',doors:4,opened:3,pitch:1,appts:0,sat:0,hours:'0'},
+  {rank:37,name:'Kameron Brooks',rookie:false,office:'Elevate Orlando',doors:2,opened:2,pitch:1,appts:0,sat:0,hours:'0'},
+  {rank:38,name:'Alfredo Preciado',rookie:false,office:'Elevate Orlando',doors:1,opened:1,pitch:1,appts:0,sat:0,hours:'0'},
+  {rank:38,name:'Sarina Campana',rookie:false,office:'Winter Haven',doors:1,opened:1,pitch:0,appts:0,sat:0,hours:'0'},
+];
+
+const maxDoors = 448;
+
+function officeTag(office) {
+  const map = {'Panama City':'panama','Winter Haven':'winterhaven','Elevate Orlando':'orlando-free','Allen Orlando':'orlando-allen'};
+  return map[office] || '';
+}
+
+function buildAllRow(r) {
+  const pct = Math.round((r.doors / maxDoors) * 100);
+  const isZero = r.doors === 0;
+  return `<tr class="${isZero ? 'zero-row' : ''}">
+    <td class="rank-cell">${r.rank}</td>
+    <td class="name-cell">${r.name}${r.rookie ? '<span class="rookie">R</span>' : ''}</td>
+    <td class="office-cell">${r.office}</td>
+    <td class="right stat-big">${r.doors.toLocaleString()}</td>
+    <td class="right">${r.opened}</td>
+    <td class="right">${r.pitch}</td>
+    <td class="right appt-cell">${r.appts}</td>
+    <td class="right" style="color:var(--blue)">${r.sat}</td>
+    <td class="right hours-cell">${r.hours}h</td>
+    <td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:${pct}%"></div></div></div></td>
+  </tr>`;
+}
+
+function buildOfficeRow(r, i) {
+  return `<tr>
+    <td class="rank-cell">${i+1}</td>
+    <td class="name-cell">${r.name}${r.rookie ? '<span class="rookie">R</span>' : ''}</td>
+    <td class="right stat-big">${r.doors.toLocaleString()}</td>
+    <td class="right">${r.pitch}</td>
+    <td class="right appt-cell">${r.appts}</td>
+    <td class="right" style="color:var(--blue)">${r.sat}</td>
+    <td class="right hours-cell">${r.hours}h</td>
+  </tr>`;
+}
+
+// Populate all tables
+document.getElementById('all-tbody').innerHTML = reps.map(buildAllRow).join('');
+
+const offices = {
+  'panama': reps.filter(r => r.office === 'Panama City'),
+  'winterhaven': reps.filter(r => r.office === 'Winter Haven'),
+  'orlando-free': reps.filter(r => r.office === 'Elevate Orlando'),
+  'orlando-allen': reps.filter(r => r.office === 'Allen Orlando'),
+};
+document.getElementById('panama-tbody').innerHTML = offices['panama'].map(buildOfficeRow).join('');
+document.getElementById('winterhaven-tbody').innerHTML = offices['winterhaven'].map(buildOfficeRow).join('');
+document.getElementById('orlando-free-tbody').innerHTML = offices['orlando-free'].map(buildOfficeRow).join('');
+document.getElementById('orlando-allen-tbody').innerHTML = offices['orlando-allen'].map(buildOfficeRow).join('');
+
+// Tab switching
+function showTab(id) {
+  ['all','panama','winterhaven','orlando-free','orlando-allen'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === id ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab').forEach((btn, i) => {
+    btn.classList.toggle('active', btn.getAttribute('onclick').includes(id));
+  });
+}
+</script>
+</body>
+</html>
